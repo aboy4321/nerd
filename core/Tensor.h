@@ -174,6 +174,14 @@ class Tensor {
       return data[flat_index(indices)];
     }    
 
+    Type& operator()(std::size_t r, std::size_t c) {
+      return data[r * strides[0] + c * strides[1]];
+    }
+
+    const Type& operator()(std::size_t r, std::size_t c) const {
+      return data[r * strides[0] + c * strides[1]];
+    }
+
     // Another helper print thingy
     void print(std::ostream& os) const {
         print_recursive(os, 0, 0, 0);

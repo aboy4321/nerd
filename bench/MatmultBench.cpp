@@ -1,75 +1,33 @@
-#include <chrono>
+#include <benchmark/benchmark.h>
 #include <Tensor.h>
 #include <TensorRandom.h>
 #include <TensorLA.h>
 
-void benchmark_matmult(size_t size, int iterations) {
-    Tensor<float> A = unifloat({size, size}, -1, 1);
-    <float> B = unifloat({size, size}, -1, 1);
-
-    // Warm-up
-    for (int i = 0; i < 5; ++i) {
-        auto C = matmult(A, B);
-    }
-
-    auto start = high_resolution_clock::now();
-
-    for (int i = 0; i < iterations; ++i) {
+static void BM_NerdMatmult(benchmark::State& state) {
+    std::size_t N = state.range(0);
+    
+    // creating NxN shape
+    nerd::Shape shape{N, N};
+    
+    // initializing uniform matrices of float
+    auto A = nerd::unifloat(shape, -1, 1);
+    auto B = nerd::unifloat(shape, -1, 1);
+    
+    // the actual matmult
+    for (auto _ : state) {
         auto C = nerd::matmult(A, B);
-
-        // Prevent the compiler from completely eliminating the work
-        volatile float result = C(0, 0);
-        (void)result;
+        
+        benchmark::DoNotOptimize(C.empty()); 
+        benchmark::ClobberMemory();
     }
-
-    auto end = high_resolution_clock::now();
-
-    double total_time =
-        duration<double>(end - start).count();
-
-    double average_time =
-        total_time / iterations;
-
-    double operations =
-        2.0 * size * size * size;
-
-    double gflops =
-        operations / average_time / 1e9;
-
-    std::cout << size << "x" << size
-         << " | "
-         << average_time * 1000 << " ms"
-         << " | "
-         << gflops << " GFLOPS"
-         << '\n';
+    
+    // counting flops
+    state.counters["FLOPS"] = benchmark::Counter(
+        state.iterations() * 2.0 * N * N * N, 
+        benchmark::Counter::kIsRate
+    );
 }
 
-int main() {
-    vector<size_t> sizes = {
-        32,
-        64,
-        128,
-        256,
-        512
-    };
+BENCHMARK(BM_NerdMatmult)->RangeMultiplier(2)->Range(16, 1024);
 
-    std::cout << "Matrix Multiplication Benchmark\n";
-    std::cout << "--------------------------------\n";
-
-    for (std::size_t size : sizes) {
-        int iterations;
-
-        if (size <= 128)
-            iterations = 100;
-        else if (size <= 256)
-            iterations = 25;
-        else
-            iterations = 5;
-
-        benchmark_matmult(size, iterations);
-    }
-
-    return 0;
-}
-
-
+BENCHMARK_MAIN();
