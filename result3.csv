@@ -1,0 +1,8 @@
+name,iterations,real_time,cpu_time,time_unit,bytes_per_second,items_per_second,label,error_occurred,error_message,"FLOPS"
+"BM_NerdMatmult/16",293712,2440.87,2438.99,ns,,,,,,3.35876e+09
+"BM_NerdMatmult/32",38612,18126.8,18114,ns,,,,,,3.61797e+09
+"BM_NerdMatmult/64",4138,170386,170280,ns,,,,,,3.07897e+09
+"BM_NerdMatmult/128",505,1.37903e+06,1.37812e+06,ns,,,,,,3.04349e+09
+"BM_NerdMatmult/256",41,1.68607e+07,1.68457e+07,ns,,,,,,1.99187e+09
+"BM_NerdMatmult/512",2,3.74079e+08,3.73716e+08,ns,,,,,,7.18286e+08
+"BM_NerdMatmult/1024",1,4.02448e+09,4.02073e+09,ns,,,,,,5.34102e+08

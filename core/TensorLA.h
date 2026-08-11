@@ -13,12 +13,11 @@ Tensor<Type> matmult(const Tensor<Type>& A, const Tensor<Type>& B) {
   std::size_t B_cols = B.get_shape(1);
   Tensor<Type> res(Shape{A_rows, B_cols});
   for (std::size_t i = 0; i < A_rows; ++i) {
-    for (std::size_t j = 0; j < B_cols; ++j) {
-      Type sum = 0;
-      for (std::size_t k = 0; k < B.get_shape(0); ++k) {
-        sum += A(i, k) * B(k, j);
+    for (std::size_t k = 0; k < B.get_shape(0); ++k) {
+      Type a_ik = A(i, k);
+      for (std::size_t j = 0; j < B_cols; ++j) {
+        res(i, j) += a_ik * B(k, j);
       }
-      res(i, j) = sum;
     }
   }
   return res;
