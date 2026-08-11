@@ -3,29 +3,23 @@
 #include <TensorMath.h>
 #include <TensorStats.h>
 #include <TensorRandom.h>
+#include <TensorLA.h>
 #include <iostream>
 
 int main() {
-  nerd::Tensor<double> T(nerd::Shape{3, 4}, 1);
-  for (int i = 4; i < T.size(); i++) {
-    T[i] = i;
+  nerd::Tensor<double> A(nerd::Shape{4,2}, 1);
+  nerd::Tensor<double> B(nerd::Shape{2,3}, 1);
+   
+  for (int i = 0; i < A.size(); i++) {
+    A[i] = i;
   }
 
-  std::cout << T.get_shape() << std::endl;
-  std::cout << T.get_strides() << std::endl;
-  auto X = nerd::sum(T, 1);
-  auto Y = nerd::mean(T, 1);
-  auto Z = nerd::var(T, 1);
-  auto W = nerd::stdev(T, 1);
-  auto M = nerd::min(T, 1);
-  auto B = nerd::max(T, 1);
+  std::cout << A << std::endl;
+  for (int i = 0; i < B.size(); i++) {
+    B[i] = i;
+  }
 
-  std::cout << T << std::endl;
-  std::cout << X << std::endl;
-  std::cout << Y << std::endl;
-  std::cout << Z << std::endl;
-  std::cout << W << std::endl;
-  std::cout << M << std::endl;
-  std::cout << B << std::endl;
+  auto C = nerd::matmult(A, B);
+  std::cout << C << std::endl;
   return 0;
 }
