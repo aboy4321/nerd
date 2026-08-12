@@ -13,16 +13,15 @@ Tensor<Type> matmult(const Tensor<Type>& A, const Tensor<Type>& B) {
   std::size_t inner_dim = B.get_shape(0);
   std::size_t A_rows = A.get_shape(0);
   std::size_t B_cols = B.get_shape(1);
-  Tensor<Type> res(Shape{A_rows, B_cols}, Type{0});
-  std::vector<Type> buffer(B_cols, 0);
-  for (std::size_t i = 0; i < A_rows; ++i) {
-    
-    std::fill(buffer.begin(), buffer.end(), Type{0});
 
+  Tensor<Type> res(Shape{A_rows, B_cols}, Type{0});
+  bool use_parallel = (A_rows >= 32 && B_cols >= 32);
+
+  #pragma omp parallel for collapse(1) if(use_parallel)
+  for (std::size_t i = 0; i < A_rows; ++i) {
+    std::vector<Type> buffer(B_cols, 0);
     for (std::size_t k = 0; k < inner_dim; ++k) {
-      Type a_ik = A(i, k); 
-      
-      #pragma omp simd
+      Type a_ik = A(i, k);  
       for (std::size_t j = 0; j < B_cols; ++j) {
         buffer[j] += a_ik * B(k, j);
       }
