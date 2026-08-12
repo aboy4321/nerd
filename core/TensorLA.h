@@ -15,7 +15,7 @@ Tensor<Type> matmult(const Tensor<Type>& A, const Tensor<Type>& B) {
   std::size_t B_cols = B.get_shape(1);
 
   Tensor<Type> res(Shape{A_rows, B_cols}, Type{0});
-  bool use_parallel = (A_rows >= 32 && B_cols >= 32);
+  bool use_parallel = (A_rows >= 16 && B_cols >= 16);
 
   #pragma omp parallel for collapse(1) if(use_parallel)
   for (std::size_t i = 0; i < A_rows; ++i) {
