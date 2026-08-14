@@ -354,6 +354,20 @@ class Tensor {
       return shape == other.shape;
     }
 
+    bool compatible_dim(const Tensor& other) const {
+      Shape other_shape = other.get_shape();
+
+      while (other_shape.ndim() < shape.ndim()) {
+        other_shape.add(0, 1);
+      }
+
+      for (std::size_t i = 0; i < shape.ndim(); ++i) {
+        if (other_shape[i] != shape[i] && other_shape[i] != 1 && shape[i] != 1) return false;
+      }
+
+      return true;
+    }
+
     /* 
      * Getter functions
      */ 
