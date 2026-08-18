@@ -355,6 +355,8 @@ class Tensor {
     }
 
     bool compatible_dim(const Tensor& other) const {
+      if (same_shape(other)) return true;
+
       Shape other_shape = other.get_shape();
 
       while (other_shape.ndim() < shape.ndim()) {

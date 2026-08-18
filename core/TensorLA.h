@@ -22,6 +22,7 @@ Tensor<Type> matmult(const Tensor<Type>& A, const Tensor<Type>& B) {
     std::vector<Type> buffer(B_cols, 0);
     for (std::size_t k = 0; k < inner_dim; ++k) {
       Type a_ik = A(i, k);  
+      #pragma omp simd
       for (std::size_t j = 0; j < B_cols; ++j) {
         buffer[j] += a_ik * B(k, j);
       }
