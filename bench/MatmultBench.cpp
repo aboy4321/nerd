@@ -28,6 +28,6 @@ static void BM_NerdMatmult(benchmark::State& state) {
     );
 }
 
-BENCHMARK(BM_NerdMatmult)->RangeMultiplier(2)->Range(16, 1024);
+BENCHMARK(BM_NerdMatmult)->RangeMultiplier(2)->Range(16, 4096);
 
 BENCHMARK_MAIN();

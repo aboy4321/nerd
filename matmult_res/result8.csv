@@ -1,8 +1,9 @@
 name,iterations,real_time,cpu_time,time_unit,bytes_per_second,items_per_second,label,error_occurred,error_message,"FLOPS"
-"BM_NerdMatmult/16",457240,1577.12,1561.94,ns,,,,,,5.24477e+09
-"BM_NerdMatmult/32",250464,2953.05,2927.21,ns,,,,,,2.23886e+10
-"BM_NerdMatmult/64",54952,12727.3,12715,ns,,,,,,4.12339e+10
-"BM_NerdMatmult/128",8275,84913.4,84838.4,ns,,,,,,4.94388e+10
-"BM_NerdMatmult/256",1107,666723,666005,ns,,,,,,5.03816e+10
-"BM_NerdMatmult/512",137,5.01447e+06,5.00713e+06,ns,,,,,,5.36107e+10
-"BM_NerdMatmult/1024",18,4.06005e+07,4.04305e+07,ns,,,,,,5.31155e+10
+"BM_NerdMatmult/16",448233,1569.97,1564.94,ns,,,,,,5.23471e+09
+"BM_NerdMatmult/32",248779,2863.55,2857.44,ns,,,,,,2.29352e+10
+"BM_NerdMatmult/64",54492,12986.1,12958.1,ns,,,,,,4.04603e+10
+"BM_NerdMatmult/128",8370,92422.1,91545.1,ns,,,,,,4.58168e+10
+"BM_NerdMatmult/256",1103,646811,642611,ns,,,,,,5.22158e+10
+"BM_NerdMatmult/512",139,5.05686e+06,4.98317e+06,ns,,,,,,5.38684e+10
+"BM_NerdMatmult/1024",18,4.08755e+07,4.05447e+07,ns,,,,,,5.29659e+10
+"BM_NerdMatmult/2048",2,3.27391e+08,3.26407e+08,ns,,,,,,5.26333e+10
