@@ -1,7 +1,7 @@
 #include <Tensor.h>
 #include <iostream>
 
-void broadcast_test() {
+void broadcast_test1() {
   // valid case
   nerd::Tensor<int> A({1,2,3,4});
   nerd::Tensor<int> B({2,2,1,1});
@@ -22,6 +22,6 @@ void broadcast_test() {
 }
 
 int main() {
-  broadcast_test();
+  broadcast_test1();
   return 0;
 }

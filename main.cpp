@@ -7,8 +7,8 @@
 #include <iostream>
 
 int main() {
-  nerd::Tensor<double> A(nerd::Shape{1,3}, 1);
-  nerd::Tensor<double> B(nerd::Shape{2,2}, 1);
+  nerd::Tensor<double> A(nerd::Shape{1, 3}, 1);
+  nerd::Tensor<double> B(nerd::Shape{2, 3, 1}, 1);
    
   for (int i = 0; i < A.size(); i++) {
     A[i] = i;

@@ -359,15 +359,34 @@ class Tensor {
 
       Shape other_shape = other.get_shape();
 
-      while (other_shape.ndim() < shape.ndim()) {
-        other_shape.add(0, 1);
-      }
+      other_shape = stretch(other_shape);
 
       for (std::size_t i = 0; i < shape.ndim(); ++i) {
         if (other_shape[i] != shape[i] && other_shape[i] != 1 && shape[i] != 1) return false;
       }
 
       return true;
+    }
+
+    Shape& output_dim(const Shape& other) const {
+      assert(compatible_dim(other));
+      Shape res;
+      for (std::size_t i = 0; i < shape.ndim(); ++i) {
+        if (shape[i] >= other[i]) {
+          res[i] = shape[i];
+        } else {
+          res[i] = other[i];
+        }
+      }
+      return res;
+    }
+
+    // temporary function, will be removed later
+    Shape& stretch(Shape& other) const {
+      while (other.ndim() < shape.ndim()) {
+        other.add(0, 1);
+      }
+      return other;
     }
 
     /* 

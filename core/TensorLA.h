@@ -18,9 +18,9 @@ Tensor<Type> matmult(const Tensor<Type>& A, const Tensor<Type>& B) {
 
   #pragma omp parallel
   {
+    std::vector<Type> buffer(B_cols);
     #pragma omp for
     for (std::size_t i = 0; i < A_rows; ++i) {
-      std::vector<Type> buffer(B_cols);
       for (std::size_t k = 0; k < inner_dim; ++k) {
         Type a_ik = A(i, k);  
         #pragma omp simd
