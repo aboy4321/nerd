@@ -21,7 +21,21 @@ void broadcast_test1() {
   }
 }
 
+void broadcast_test2() {
+  // 3x3 matrix and array of size 3
+  nerd::Tensor<int> E(nerd::Shape{3,3});
+  nerd::Tensor<int> F(nerd::Shape{3});
+  if (E.compatible_dim(F)) {
+    std::cout << "E is compatible with F" << std::endl;
+  } else {
+    std::cout << "False" << std::endl;
+  }
+
+  std::cout << E.output_dim(F) << std::endl;
+}
+
 int main() {
   broadcast_test1();
+  broadcast_test2();
   return 0;
 }
