@@ -42,13 +42,14 @@ Shape output_shape(const Shape& A, const Shape& B) {
   return output;
 }
 
-Shape zero_stride(Shape& stride, std::size_t rank) {
-    while (stride.ndim() < rank) {
-        stride.add(0,0);
+Shape zero_stride(const Shape& stride, std::size_t rank) {
+    Shape eff_stride = stride;
+    while (eff_stride.ndim() < rank) {
+        eff_stride.add(0,0);
     }
-    return stride;
+    
+    return eff_stride;
 }
-
 
 // Shape create_unequal;
 // aligns array to some row and column start

@@ -13,10 +13,10 @@ void broadcast_test1() {
   }
 
   // invalid case
-  nerd::Tensor<int> A({1, 2, 3, 4});
-  nerd::Tensor<int> B({1, 5, 1, 2});
-  if (nerd::compatible(A.get_shape(), B.get_shape())) {
-    std::cout << "A is compatible with B" << std::endl;
+  nerd::Tensor<int> C({1, 2, 3, 4});
+  nerd::Tensor<int> D({1, 5, 1, 2});
+  if (nerd::compatible(C.get_shape(), D.get_shape())) {
+    std::cout << "C is compatible with D" << std::endl;
   } else {
     std::cout <<  "False" << std::endl;
   }
@@ -40,11 +40,14 @@ void broadcast_test3() {
     nerd::Tensor<int> B(nerd::Shape{6, 2});
     if (nerd::compatible(A.get_shape(), B.get_shape())) {
       std::cout << "A is compatible with B" << std::endl;
+      std::cout << "Effective Strides of B:" << std::endl;
+      std::cout << nerd::zero_stride(B.get_shape(), A.ndim()) << std::endl;
     } else {
       std::cout << "False" << std::endl;
     }
-
 }
+
+void broadcast_test3() {}
 
 int main() {
   broadcast_test1();
