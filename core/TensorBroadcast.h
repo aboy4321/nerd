@@ -26,9 +26,6 @@ bool compatible(const Shape& A, const Shape& B) {
 }
 
 Shape output_shape(const Shape& A, const Shape& B) {
-  assert(compatible(A, B));
-
-
   std::size_t rank = std::max(A.ndim(), B.ndim());
   Shape A_align = align_dim(A, rank);
   Shape B_align = align_dim(B, rank);
@@ -44,5 +41,16 @@ Shape output_shape(const Shape& A, const Shape& B) {
 
   return output;
 }
+
+Shape zero_stride(Shape& stride, std::size_t rank) {
+    while (stride.ndim() < rank) {
+        stride.add(0,0);
+    }
+    return stride;
+}
+
+
+// Shape create_unequal;
+// aligns array to some row and column start
 
 }
