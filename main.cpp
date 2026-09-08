@@ -22,7 +22,5 @@ int main() {
   std::cout << nerd::compatible(A.get_shape(), B.get_shape()) << std::endl;
   std::cout << nerd::output_shape(A.get_shape(), B.get_shape()) << std::endl;
   std::cout << nerd::zero_stride(A.get_shape(), B.ndim()) << std::endl;
-  // auto C = nerd::matmult(A, B);
-  // std::cout << C << std::endl;
   return 0;
 }

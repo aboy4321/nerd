@@ -47,11 +47,12 @@ void broadcast_test3() {
     }
 }
 
-void broadcast_test3() {}
+void broadcast_test4() {}
 
 int main() {
   broadcast_test1();
   broadcast_test2();
   broadcast_test3();
+  broadcast_test4();
   return 0;
 }
