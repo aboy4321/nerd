@@ -206,13 +206,6 @@ class Tensor {
       return *this;
     }
 
-    // Creates another tensor via addition
-    Tensor operator+(const Tensor& other) const {
-      Tensor res = *this;
-      res += other;
-      return res;
-    }
-
     // Modification by subtraction
     Tensor& operator-=(const Tensor& other) {
       assert(same_shape(other));
@@ -220,13 +213,6 @@ class Tensor {
         data[i] -= other.data[i];
       }
       return *this;
-    }
-
-    // Creates another tensor via subtraction
-    Tensor operator-(const Tensor& other) const {
-      Tensor res = *this;
-      res -= other;
-      return res;
     }
 
     // Modifies tensor via scalar multiplication

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Tensor.h>
 #include <TensorStats.h>
 #include <random>
