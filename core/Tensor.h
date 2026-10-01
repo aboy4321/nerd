@@ -340,6 +340,19 @@ class Tensor {
       return shape == other.shape;
     }
 
+    bool is_contiguous() const {
+      if (shape.empty()) return true;
+
+      std::size_t expected_stride = 1;
+
+      for (std::size_t i = shape.ndim(); i-- > 0;) {
+        if (strides[i] != expected_stride) return false;
+         expected_stride *= shape[i];
+      }
+
+      return true;
+    }
+
     /* 
      * Getter functions
      */ 

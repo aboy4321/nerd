@@ -30,7 +30,7 @@ Tensor<Type> sum(const Tensor<Type>& T, std::size_t dim) {
 template <typename Type>
 double mean(const Tensor<Type>& T) {
   assert(!T.empty());
-  return sum(T) / T.size();
+  return static_cast<double>(sum(T)) / T.size();
 }
 
 template <typename Type>
@@ -115,7 +115,7 @@ Tensor<Type> max(const Tensor<Type>& T, std::size_t dim) {
   assert(dim < T.ndim());
   Shape other = T.get_shape();
   other.remove_dim(dim);
-  Tensor<Type> res(other, std::numeric_limits<Type>::min());
+  Tensor<Type> res(other, std::numeric_limits<Type>::lowest());
   for (std::size_t i = 0; i < T.size(); ++i) {
     auto coord = T.unravel(i);
     coord.erase(coord.begin() + dim);
