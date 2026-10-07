@@ -34,7 +34,6 @@ class Tensor {
       return strides;
     }
 
-
     // helper printing function, takes into account varying dimensions, thus nesting bracketss where necessary
     void print_recursive(
         std::ostream& os,
@@ -135,10 +134,6 @@ class Tensor {
       }
       return res;
     }
-
-    /*
-     * Accesing data and data at index + printing
-     */
 
     /*
      * Performs opposite operation of flat_index, converts flat index into vector of indices
