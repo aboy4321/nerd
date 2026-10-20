@@ -348,6 +348,26 @@ class Tensor {
       return true;
     }
 
+    Tensor contiguous() const {
+      if (is_contiguous()) return *this;
+
+      Tensor res(shape);
+
+      for (std::size_t i = 0; i < res.size(); ++i) {
+        auto coords = res.unravel(i);
+
+        std::size_t index = 0;
+        
+        for (std::size_t j = 0; j < coords.size(); ++j) {
+          index += coords[j] * strides[j];
+        }
+
+        res[i] = data[index];
+      }
+
+      return res;
+    }
+
     /* 
      * Getter functions
      */ 
