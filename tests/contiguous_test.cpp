@@ -1,4 +1,5 @@
 #include <Tensor.h>
+#include <TensorMath.h>
 #include <iostream>
 
 using namespace nerd;
@@ -52,7 +53,7 @@ void test_contiguous_after_permute() {
 
     auto B = A.permute({1, 0});
 
-    assert(B.get_shape() == Shape{3, 2});
+    assert((B.get_shape() == Shape{3, 2}));
     assert(!B.is_contiguous());
 
     /*
@@ -70,7 +71,7 @@ void test_contiguous_after_permute() {
 
     auto C = B.contiguous();
 
-    assert(C.get_shape() == Shape{3, 2});
+    assert((C.get_shape() == Shape{3, 2}));
     assert(C.is_contiguous());
 
     int expected[] = {
@@ -122,7 +123,7 @@ void test_contiguous_3d_permute() {
     auto C = B.contiguous();
 
     assert(C.is_contiguous());
-    assert(C.get_shape() == Shape{2, 2, 3});
+    assert((C.get_shape() == Shape{2, 2, 3}));
 
     for (std::size_t i = 0; i < C.size(); ++i) {
         auto coords = C.unravel(i);
@@ -151,7 +152,7 @@ void test_reshape() {
 
     auto B = A.reshape(Shape{3, 2});
 
-    assert(B.get_shape() == Shape{3, 2});
+    assert((B.get_shape() == Shape{3, 2}));
     assert(B.size() == 6);
     assert(B.is_contiguous());
 
@@ -201,7 +202,7 @@ void test_reshape_noncontiguous() {
 
     auto C = B.reshape(Shape{2, 3});
 
-    assert(C.get_shape() == Shape{2, 3});
+    assert((C.get_shape() == Shape{2, 3}));
     assert(C.size() == 6);
     assert(C.is_contiguous());
 
@@ -220,11 +221,61 @@ void test_reshape_noncontiguous() {
     };
 
     for (std::size_t i = 0; i < C.size(); ++i) {
-        assert(C[i] == expected[i]);
+        assert((C[i] == expected[i]));
     }
 
     std::cout << "test_reshape_noncontiguous passed\n";
 }
+
+void test_sqrt_noncontiguous() {
+    Tensor<double> A(Shape{2, 3});
+
+    A[0] = 1;
+    A[1] = 4;
+    A[2] = 9;
+    A[3] = 16;
+    A[4] = 25;
+    A[5] = 36;
+
+    /*
+        A =
+        [
+            [1,  4,  9],
+            [16,25,36]
+        ]
+    */
+
+    auto B = A.permute({1, 0});
+
+    assert((!B.is_contiguous()));
+
+    /*
+        B logically =
+        [
+            [1,16],
+            [4,25],
+            [9,36]
+        ]
+    */
+
+    auto C = nerd::sqrt(B);
+
+    assert((C.is_contiguous()));
+    assert((C.get_shape() == Shape{3, 2}));
+
+    double expected[] = {
+        1, 4,
+        2, 5,
+        3, 6
+    };
+
+    for (std::size_t i = 0; i < C.size(); ++i) {
+        assert(std::abs(C[i] - expected[i]) < 1e-9);
+    }
+
+    std::cout << "test_sqrt_noncontiguous passed\n";
+}
+
 
 int main() {
   test_contiguous_tensor();
@@ -235,5 +286,6 @@ int main() {
   test_contiguous_after_permute();
   test_reshape();
   test_reshape_noncontiguous();
+  test_sqrt_noncontiguous();
   return 0;
 }
