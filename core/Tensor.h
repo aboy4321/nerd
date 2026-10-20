@@ -260,9 +260,15 @@ class Tensor {
     // reshapes tensor, data is not affected
     Tensor reshape(const Shape& other) const {
       assert(shape.size() == other.size());
+
+      if (!is_contiguous()) {
+        return contiguous().reshape(other);
+      }
+
       Tensor res = *this;
       res.shape = other;
       res.strides = res.compute_strides();
+
       return res;
     }
 

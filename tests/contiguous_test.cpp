@@ -134,6 +134,98 @@ void test_contiguous_3d_permute() {
     std::cout << "test_contiguous_3d_permute passed\n";
 }
 
+void test_reshape() {
+    Tensor<int> A(Shape{2, 3});
+
+    for (std::size_t i = 0; i < A.size(); ++i) {
+        A[i] = static_cast<int>(i + 1);
+    }
+
+    /*
+        A =
+        [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+    */
+
+    auto B = A.reshape(Shape{3, 2});
+
+    assert(B.get_shape() == Shape{3, 2});
+    assert(B.size() == 6);
+    assert(B.is_contiguous());
+
+    int expected[] = {
+        1, 2,
+        3, 4,
+        5, 6
+    };
+
+    for (std::size_t i = 0; i < B.size(); ++i) {
+        assert(B[i] == expected[i]);
+    }
+
+    std::cout << "test_reshape passed\n";
+}
+
+void test_reshape_noncontiguous() {
+    Tensor<int> A(Shape{2, 3});
+
+    for (std::size_t i = 0; i < A.size(); ++i) {
+        A[i] = static_cast<int>(i + 1);
+    }
+
+    /*
+        A =
+        [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+    */
+
+    auto B = A.permute({1, 0});
+
+    /*
+        B logically =
+        [
+            [1, 4],
+            [2, 5],
+            [3, 6]
+        ]
+
+        Logical flat order:
+        1, 4, 2, 5, 3, 6
+    */
+
+    assert(!B.is_contiguous());
+
+    auto C = B.reshape(Shape{2, 3});
+
+    assert(C.get_shape() == Shape{2, 3});
+    assert(C.size() == 6);
+    assert(C.is_contiguous());
+
+    /*
+        C should logically be:
+
+        [
+            [1, 4, 2],
+            [5, 3, 6]
+        ]
+    */
+
+    int expected[] = {
+        1, 4, 2,
+        5, 3, 6
+    };
+
+    for (std::size_t i = 0; i < C.size(); ++i) {
+        assert(C[i] == expected[i]);
+    }
+
+    std::cout << "test_reshape_noncontiguous passed\n";
+}
+
 int main() {
   test_contiguous_tensor();
   test_reshape_contiguous();
@@ -141,5 +233,7 @@ int main() {
   test_contiguous_3d_permute();
   test_contiguous_already_contiguous();
   test_contiguous_after_permute();
+  test_reshape();
+  test_reshape_noncontiguous();
   return 0;
 }
